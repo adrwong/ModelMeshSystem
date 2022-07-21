@@ -1,0 +1,6 @@
+{
+    "endpoints": "mms-etcd.etcd.svc.cluster.local:2379",
+    "userid": "root", 
+    "password": "qbL6md2add",
+    "root_prefix": "this_is_a_root_prefix"
+}

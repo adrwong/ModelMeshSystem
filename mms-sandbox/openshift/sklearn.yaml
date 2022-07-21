@@ -1,0 +1,12 @@
+apiVersion: serving.kubeflow.org/v1alpha1
+kind: TrainedModel
+metadata:
+  name: example-sklearn-mnist-svm
+  annotations:
+    wmlserving.ai.ibm.com/secret-key: wml-serving-example-models
+spec:
+  inferenceService: ''
+  model:
+    storageUri: s3://wml-serving-example-models-public/sklearn/mnist-svm.joblib
+    framework: sklearn
+    memory: 256Mi
