@@ -102,7 +102,10 @@ Reference: https://github.com/kserve/modelmesh-serving/tree/release-0.9/docs/pre
 Done!
 
 checkout the mms-sandbox folder for grpc_predict_v2.proto for an inference application
-checkout the mms-sandbox/grpc-predict folder for client.py for an example application
+checkout the mms-sandbox/grpc-predict folder for client.py for an example client application
 
 MMS API Ref: https://github.com/kserve/kserve/blob/master/docs/predict-api/v2/required_api.md#grpc
+
 MMS all Ref: https://github.com/kserve/modelmesh-serving/tree/release-0.9/docs
+
+Model formats: https://github.com/kserve/modelmesh-serving/tree/main/docs/model-formats
