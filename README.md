@@ -13,7 +13,7 @@ Knative = v1.6.0
 Etcd = 8.3.4
 ModelMesh = Release 0.9
 
-Session 1: Install prerequisites for KServe (i.e. Installing Knative + Istio networking + Cert manager)
+# Session 1: Install prerequisites for KServe (i.e. Installing Knative + Istio networking + Cert manager)
 
 Apply the followings in order
 kubectl apply -l knative.dev/crd-install=true -f https://github.com/knative/net-istio/releases/download/knative-v1.6.0/istio.yaml
@@ -33,14 +33,14 @@ Next, install Cert manager: https://cert-manager.io/docs/installation/
 
 Make sure everything is up and running before Session 2.
 
-Session 2: KServe installation and Inference service test
+# Session 2: KServe installation and Inference service test
 
 Apply the following:
 
 1. `kubectl apply -f https://github.com/kserve/kserve/releases/download/v0.8.0/kserve.yaml`
 2. `kubectl apply -f https://github.com/kserve/kserve/releases/download/v0.8.0/kserve-runtimes.yaml`
 
-Testing 1: KServe functionality
+# Testing 1: KServe functionality
 
 1. run `kubectl -n kserve-test apply -f test1/firstInference.yaml` to deploy a testing inferenceservice (isvc) using a simple iris model in sklearn (.jolib) stored in GCP bucket.
 2. check `kubectl get inferenceservices -n kserve-test` for isvc ready status
@@ -56,7 +56,7 @@ Testing 1: KServe functionality
 5. run `curl -v -H "Host: ${SERVICE_HOSTNAME}" http://${INGRESS_HOST}:${INGRESS_PORT}/v1/models/sklearn-iris:predict -d @./iris-input-isvc.json`
    you should see something like `{"predictions": [2, 1]}` in the response message if successful
 
-Testing 2: Test Rook Ceph object store bucket connectivity
+# Testing 2: Test Rook Ceph object store bucket connectivity
 
 1. create a bucket to store your models, each bucket can hold multiple models as long as they are in different directories.
 2. retrieve the bucket's owner's ACCESS_KEY, ACCESS_SECRET and bucket name for later use
@@ -67,7 +67,7 @@ Testing 2: Test Rook Ceph object store bucket connectivity
 7. run `SERVICE_HOSTNAME=$(kubectl get inferenceservice sklearn-iris -n mms-sklearn -o jsonpath='{.status.url}' | cut -d "/" -f 3)`
    run step5 in test1 again (you may need to change the input json file path)
 
-Session 3: Install prerequisites for ModelMesh (i.e. Etcd server)
+# Session 3: Install prerequisites for ModelMesh (i.e. Etcd server)
 
 1. run `kubectl get StorageClass -A` to choose the StorageClass you want for etcd server setup, change global.storageClass in etcd-settings.yaml to the StorageClass of yours.
 2. run `kubectl create namespace etcd` and `kubectl config set-context --current --namespace=etcd`
@@ -76,7 +76,7 @@ Session 3: Install prerequisites for ModelMesh (i.e. Etcd server)
    checkout https://artifacthub.io/packages/helm/bitnami/etcd for details
 4. edit the fields in etcd-config.json with the output you got in the last step, default userid is root
 
-Session 4: Install ModelMesh
+# Session 4: Install ModelMesh
 
 1. run
    `RELEASE=release-0.9`
@@ -88,7 +88,7 @@ Session 4: Install ModelMesh
 3. edit fields in k3secret.json for your own settings (note: leave region = us-south if your have no idea)
 4. convert k3secret.json to a base64 string and append the string to under data as `s3Key: <your b64 string>` using `kubectl -n modelmesh-serving edit secrets storage-config`
 
-Testing 3: Test isvc with ModelMesh
+# Testing 3: Test isvc with ModelMesh
 
 Reference: https://github.com/kserve/modelmesh-serving/tree/release-0.9/docs/predictors
 
