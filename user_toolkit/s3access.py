@@ -25,8 +25,8 @@ class Ceph3BOTO3():
         print(buckets)
         return buckets
 
-    def create_bucket(self):
-        self.s3_client.create_bucket(Bucket='')
+    def create_bucket(self, bkname):
+        self.s3_client.create_bucket(Bucket=bkname)
         # ACL = 'private', 'public-read', 'public-read-write', 'authenticated-read'
         # self.s3_client.create_bucket(Bucket='new_bucket', ACL='public-read')
 
