@@ -10,8 +10,8 @@ logger = logger(__name__, "INFO")
 class Ceph3BOTO3():
     def __init__(self):
         # prod credentials
-        access_key = 'xxxxxxxxxxx'
-        secret_key = 'xxxxxxxxxxx'
+        access_key = 'KHU021B6ZU3QHQDZ56NH'
+        secret_key = 'SuEnn3m6KEZGTbyoIDXdDHmWHIQa3Vn9xvCmlbRa'
         self.session = Session(aws_access_key_id=access_key,
                                aws_secret_access_key=secret_key)
         # self.url = 'http://rook-ceph-rgw-my-store.rook-ceph/'
@@ -63,14 +63,11 @@ class Ceph3BOTO3():
         with open(from_file_path, 'rb') as f:
             fo = io.BytesIO(f.read())
             
-        res
+        resp = self.s3_client.put_object(
+            Bucket=bkname,
+            Key=bucket_file_path,  # target file name
+            Body=fo
         )
-        # with open('data_shards/cooccurrence/cooccurrence.hdf5', 'rb') as f:
-        #     resp = self.s3_client.put_object(
-        #         Bucket='stock2vec-test', Key='cooccurrence.hdf5', Body=f)
-        #     logger.info('saved cooc matrix: cooccurrence.hdf5')
-        #     logger.info(resp)
-
         return resp
         
     def download(self, bkname, from_bucket_path, to_file_path):
