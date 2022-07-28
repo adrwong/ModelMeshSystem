@@ -10,8 +10,8 @@ logger = logger(__name__, "INFO")
 class Ceph3BOTO3():
     def __init__(self):
         # prod credentials
-        access_key = 'XXXXXXXXXXXXX'
-        secret_key = 'XXXXXXXXXXXXX'
+        access_key = 'xxxxxxxxxxx'
+        secret_key = 'xxxxxxxxxxx'
         self.session = Session(aws_access_key_id=access_key,
                                aws_secret_access_key=secret_key)
         # self.url = 'http://rook-ceph-rgw-my-store.rook-ceph/'
@@ -27,6 +27,11 @@ class Ceph3BOTO3():
 
     def create_bucket(self, bkname):
         self.s3_client.create_bucket(Bucket=bkname)
+        # ACL = 'private', 'public-read', 'public-read-write', 'authenticated-read'
+        # self.s3_client.create_bucket(Bucket='new_bucket', ACL='public-read')
+    
+    def delete_bucket(self, bkname):
+        self.s3_client.delete_bucket(Bucket=bkname)
         # ACL = 'private', 'public-read', 'public-read-write', 'authenticated-read'
         # self.s3_client.create_bucket(Bucket='new_bucket', ACL='public-read')
 
@@ -54,12 +59,11 @@ class Ceph3BOTO3():
                 print('completed uploading '+full_path)
         print('folder upload completed')
 
-    def upload(self):
-        fo = io.BytesIO(b'my data stored as file object in RAM')
-        resp = self.s3_client.put_object(
-            Bucket='stock2vec-test',
-            Key='test.txt',  # target file name
-            Body=fo
+    def upload(self, bkname, from_file_path, bucket_file_path):
+        with open(from_file_path, 'rb') as f:
+            fo = io.BytesIO(f.read())
+            
+        res
         )
         # with open('data_shards/cooccurrence/cooccurrence.hdf5', 'rb') as f:
         #     resp = self.s3_client.put_object(
@@ -67,14 +71,11 @@ class Ceph3BOTO3():
         #     logger.info('saved cooc matrix: cooccurrence.hdf5')
         #     logger.info(resp)
 
-    def download(self):
+        return resp
+        
+    def download(self, bkname, from_bucket_path, to_file_path):
         self.s3_resource.meta.client.download_file(
-            'stock2vec-test', 'vocab.pkl', './output/data_shards/cooccurrence/vocab.pkl')
+            bkname, from_bucket_path, to_file_path)
 
     def delete(self, bucket, key):
         self.s3_resource.Object(bucket, key).delete()
-
-
-if __name__ == "__main__":
-    cephs3_boto3 = Ceph3BOTO3()
-    cephs3_boto3.upload_folder('sklearn', bucket='models')
