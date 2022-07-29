@@ -59,7 +59,7 @@ class Ceph3BOTO3():
                 print('completed uploading '+full_path)
         print('folder upload completed')
 
-    def upload(self, bkname, from_file_path, bucket_file_path):
+    def upload_file(self, bkname, from_file_path, bucket_file_path):
         with open(from_file_path, 'rb') as f:
             fo = io.BytesIO(f.read())
             
@@ -69,8 +69,17 @@ class Ceph3BOTO3():
             Body=fo
         )
         return resp
+
+    def download_folder(self, bkname, from_bucket_dir, to_dir):
+        bucket = self.s3_resource.Bucket(bkname) 
+        for obj in bucket.objects.filter(Prefix = from_bucket_dir):
+            target_path = os.path.join(to_dir, obj.key)
+            print(os.path.dirname(target_path))
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(os.path.dirname(target_path))
+            bucket.download_file(obj.key, target_path) # save to same path
         
-    def download(self, bkname, from_bucket_path, to_file_path):
+    def download_file(self, bkname, from_bucket_path, to_file_path):
         self.s3_resource.meta.client.download_file(
             bkname, from_bucket_path, to_file_path)
 
