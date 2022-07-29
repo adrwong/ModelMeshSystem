@@ -10,8 +10,8 @@ logger = logger(__name__, "INFO")
 class Ceph3BOTO3():
     def __init__(self):
         # prod credentials
-        access_key = 'KHU021B6ZU3QHQDZ56NH'
-        secret_key = 'SuEnn3m6KEZGTbyoIDXdDHmWHIQa3Vn9xvCmlbRa'
+        access_key = 'xxxxxxxxxxxx'
+        secret_key = 'xxxxxxxxxxxx'
         self.session = Session(aws_access_key_id=access_key,
                                aws_secret_access_key=secret_key)
         # self.url = 'http://rook-ceph-rgw-my-store.rook-ceph/'
